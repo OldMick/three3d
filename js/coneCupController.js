@@ -1,8 +1,5 @@
-//Controller for the coffee mug model
-//3D Library used - three.js
-
 var app = angular.module("3dpreviewapp", []);
-app.controller("baseController", function ($scope, $timeout)
+app.controller("coneCupController", function ($scope, $timeout)
 {
     THREE.ImageUtils.crossOrigin = "";
     var scene, camera, renderer, object, group, material, img,
@@ -30,7 +27,7 @@ app.controller("baseController", function ($scope, $timeout)
     {
         $scope.isLoading = true;
         var client = new XMLHttpRequest();
-        client.open('GET', 'settings.js', true);
+        client.open('GET', 'settingsConeCup.js', true);
         client.onreadystatechange = function() {
             if (client.readyState == 4 && client.status == 200)
             {
@@ -42,6 +39,8 @@ app.controller("baseController", function ($scope, $timeout)
                     $scope.backgrounds = data.backgrounds;
                     $scope.selectedBg = $scope.backgrounds[0];
                     textureImg = data.texture;
+                    color1 = $scope.objectColors[0].color1;
+                    color2 = $scope.objectColors[0].color2;
                     init();
                 });
             }
@@ -52,9 +51,9 @@ app.controller("baseController", function ($scope, $timeout)
     init = function()
     {
         /*stats = new Stats();
-        stats.setMode( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-        document.body.appendChild( stats.domElement );
-        stats.begin();*/
+            stats.setMode( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+            document.body.appendChild( stats.domElement );
+            stats.begin();*/
         //console.log = function(){};
         // Create the scene and set the scene size.
         scene = new THREE.Scene();
@@ -83,19 +82,26 @@ app.controller("baseController", function ($scope, $timeout)
         watermark = new Image();
         watermark.src = 'images/watermark.png';
 
+        if(direction == -1) {
+            $('#angleSlider').attr('min', -360/rotateSpeed);
+            $('#angleSlider').attr('max', 0);
+        }
+        else
+        {
+            $('#angleSlider').attr('min', 0);
+            $('#angleSlider').attr('max', 360/rotateSpeed);
+        }
+
         addLights();
         addBackground();
         addModel();
     }
 
-
-    //Method used to add different lights to the 3d environment
-    //Can be configured or changed to test the ambience of the scene.
     function addLights()
     {
         // Create some lights and add them to the scene.
-        var spotLight = new THREE.SpotLight( 0xffffff, 0.5, 0, Math.PI / 2 );
-        spotLight.position.set(-500, 200, -580);
+        var spotLight = new THREE.SpotLight( 0xffffff, 0.01, 0, Math.PI / 2 );
+        spotLight.position.set(-300, -200, -80);
         spotLight.target.position.set( 0, 0, 0 );
         //spotLight.shadowCameraVisible = true;
         spotLight.castShadow = false;
@@ -109,51 +115,37 @@ app.controller("baseController", function ($scope, $timeout)
         spotLight.shadow.mapSize.height = 2048;
         scene.add( spotLight );
 
-        var pointLight2 = new THREE.PointLight( 0x84C46E );
+        var pointLight2 = new THREE.PointLight( 0xffffff );
         pointLight2.position.x = 100;
         pointLight2.position.y = 500;
         pointLight2.position.z = 150;
         pointLight2.distance = 1000;
-        pointLight2.intensity = 3;
+        pointLight2.intensity = 1;
         //pointLight2.castShadow = true;
         //pointLight2.shadowCameraVisible = true;
-        // scene.add( pointLight2 );
+        //scene.add( pointLight2 );
 
         var directionalLight = new THREE.DirectionalLight( 0xffffff );
-        directionalLight.position.set( -600, 200, 800 ).normalize();
+        directionalLight.position.set( -300, 200, 800 ).normalize();
         directionalLight.intensity = 0.5;
         //directionalLight.castShadow = true;
         scene.add( directionalLight );
 
         var directionalLight2 = new THREE.DirectionalLight( 0xffffff );
-        directionalLight2.position.set( -300, 400, -300 ).normalize();
-        directionalLight2.intensity = 0.1;
-        directionalLight2.castShadow = true;
-        //directionalLight2.shadow.camera.visible = true;
-        directionalLight2.shadow.camera.left = -1; // or whatever value works for the scale of your scene
-        directionalLight2.shadow.camera.right = 1;
-        directionalLight2.shadow.camera.top = 1;
-        directionalLight2.shadow.camera.bottom = -1;
-        //directionalLight2.shadowDarkness = 0.2;
-
-        directionalLight2.shadow.bias = 0.0001;
-        directionalLight2.shadow.radius = 1;
-        directionalLight2.shadow.mapSize.width = 2048;
-        directionalLight2.shadow.mapSize.height = 2048;
+        directionalLight2.position.set( -300, 10, -300 ).normalize();
+        directionalLight2.intensity = 0.5;
         scene.add( directionalLight2 );
 
         var ambientLight = new THREE.AmbientLight( 0xffffff );
-        ambientLight.intensity = 1;
+        ambientLight.intensity = 0.5;
         //ambientLight.shadowCameraVisible = true;
         scene.add( ambientLight );
     }
 
-    //This method is used to add the background scene image using a textureloader
-    //Manage watermark and cofigure background size here
     function addBackground()
     {
         backgroundTexture = new THREE.TextureLoader().load( 'images/'+$scope.selectedBg+'.jpg', function(){
-            //animate();
+            animate();
         });
         backgroundTexture.needsUpdate = true;
         var backgroundGeometry = new THREE.CubeGeometry(0.01,1.2,1.55);
@@ -163,18 +155,10 @@ app.controller("baseController", function ($scope, $timeout)
         });
 
         background = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
-        // background.position.x=0.5;
-        // background.position.y=0.27;
-        // background.position.z=0;
-
-        // background.rotation.z=-12*Math.PI/180;
-
-        background.rotation.set(25, -55, 0);
-        background.position.set(0, 0.5, -1);
-
-        background.scale.set(2, 2, 2);
-
-
+        background.position.x=0.5;
+        background.position.y=0.27;
+        background.position.z=0;
+        background.rotation.z=-12*Math.PI/180;
         scene.add(background);
 
         var watermarkTexture = new THREE.TextureLoader().load( 'images/logo.png');
@@ -194,8 +178,6 @@ app.controller("baseController", function ($scope, $timeout)
         scene.add(watermark);
     }
 
-    //Method to add the 3d model
-    //This imports .obj file format that can be configured in the settings.js file
     function addModel()
     {
         var httpReq = new XMLHttpRequest();
@@ -214,16 +196,7 @@ app.controller("baseController", function ($scope, $timeout)
                 colorrects = modeldata.colorrects;
                 imagerect = modeldata.imagerect;
                 removeChildIndices = modeldata.removeChildIndices;
-
-                if(direction == -1) {
-                    $('#angleSlider').attr('min', -360/rotateSpeed);
-                    $('#angleSlider').attr('max', 0);
-                }
-                else
-                {
-                    $('#angleSlider').attr('min', 0);
-                    $('#angleSlider').attr('max', 360/rotateSpeed);
-                }
+                colorChildIndices = modeldata.colorChildIndices;
                 bitmap = document.getElementById('drawcanvas');
                 g = bitmap.getContext('2d');
                 bitmap.width = 1024;
@@ -231,23 +204,8 @@ app.controller("baseController", function ($scope, $timeout)
                 g.fillStyle=$scope.objectColors[0].color1;
                 g.fillRect(0,0,bitmap.width,bitmap.height);
 
-                // g.fillStyle="#ff1c24";
-                // g.fillRect(0, 0, 400, 400);
-                //
-                // g.fillStyle="#fe5fff";
-                // g.fillRect(100, 100, 400, 400);
-                //
-                // g.fillStyle="#435fff";
-                // g.fillRect(200, 200, 400, 400);
-                //
-                // g.fillStyle="#54ff4c";
-                // g.fillRect(300, 300, 400, 400);
-
-                // g.fillStyle="#45f256";
-                // g.fillRect(0, 0, 300, 300);
-                //
-                // console.log(0,0,bitmap.width,bitmap.height);
-                // console.log(colorrects[1][0],colorrects[1][1],colorrects[1][2],colorrects[1][3]);
+                //g.fillStyle="#F7B359";
+                //g.fillRect(100,40,874,330);
 
 
                 g.fillStyle=$scope.objectColors[0].color2;
@@ -256,6 +214,10 @@ app.controller("baseController", function ($scope, $timeout)
                 // canvas contents will be used for a texture
                 var texture = new THREE.Texture(bitmap);
                 texture.needsUpdate = true;
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.offset.set(0,0);
+                texture.repeat.set(1,1);
 
                 var path = "images/textures/";
                 var format = '.png';
@@ -277,14 +239,14 @@ app.controller("baseController", function ($scope, $timeout)
                     envMap: textureCube,
                     reflectivity: reflectivity,
                     //opacity: 0.9,
-                    //transparent: true,
-                    //bumpMap: texture,
-                    //bumpScale : 0.001,
+                    transparent: true,
+                    bumpMap: texture,
+                    bumpScale : 0.0002,
                 });
 
                 floorTexture = new THREE.TextureLoader().load( 'images/shadow.png' );
                 floorTexture.needsUpdate = true;
-                var floorGeometry = new THREE.CubeGeometry(0.39,0.0001,0.39);
+                var floorGeometry = new THREE.CubeGeometry(10.3,0.0001,10.3);
                 var floorMaterial = new THREE.MeshBasicMaterial({
                     color: 0xffffff,
                     map: floorTexture,
@@ -293,25 +255,17 @@ app.controller("baseController", function ($scope, $timeout)
                 });
 
                 var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-                floor.position.x=0;
-                floor.position.y=0;
+                floor.position.x=0.1;
+                floor.position.y=0.078;
                 floor.scale.set( modelScale/0.07,modelScale/0.07,modelScale/0.07 );
                 group.add(floor);
                 //group.position.z = -0.2;
-
-                var axisHelper = new THREE.AxisHelper( 1 );
-                scene.add( axisHelper );
-
                 var loader = new THREE.OBJLoader();
-                loader.load(modelFile+'/cup2.obj', function(mesh)
+                loader.load(modelFile+'/model.obj', function(mesh)
                 {
-                    // mesh.scale.set( modelScale,modelScale,modelScale );
-                    // mesh.position.x = 0.1;
-                    // mesh.position.y = 0.084;
-
-                    // mesh.scale.set(0.0123, 0.01288, 0.0123);
-                    mesh.scale.set(0.005, 0.005, 0.005);
-                    mesh.position.set(0, 0, 0);
+                    mesh.scale.set( modelScale,modelScale,modelScale );
+                    mesh.position.x = 0.1;
+                    mesh.position.y = 0.084;
 
                     group.add(mesh);
                     object = mesh;
@@ -319,29 +273,15 @@ app.controller("baseController", function ($scope, $timeout)
 
                     //if(textureImg) onFileSelect(textureImg);
                     //mesh = new THREE.Mesh(geometry, material);
-                    var childFound = false;
-                    for ( var i = 0, l = mesh.children.length; i < l; i ++ ) {
-                        // for(var c = 0; c < removeChildIndices.length; c++)
-                        //     if(i == c) mesh.children[i].visible = false;
-                        mesh.children[i].material = material;
-                        mesh.children[i].material.map.needsUpdate = true;
-
-                    }
-                    // animate();
+                    update();
+                    animate();
                     /*camera.position.x = Math.cos( 180*Math.PI/180 ) * 1;
                     camera.position.y = 2*Math.cos( 90*Math.PI/180 );
                     camera.lookAt( new THREE.Vector3( 0, 0, 0 ) );*/
-
-                    // camera.position.x = Math.cos( 180*Math.PI/180 ) * 1;
-                    // camera.position.y = 0.55;
-                    // camera.lookAt( new THREE.Vector3( 0.5, 0.25, 0 ) );
-
-
-                    camera.position.set(0, 0.5, 2);
-                    camera.lookAt( new THREE.Vector3( 0, 0.5, 0 ) );
-
-
-                    renderer.render(scene, camera);
+                    camera.position.x = Math.cos( 180*Math.PI/180 ) * 1;
+                    camera.position.y = 0.55;
+                    camera.lookAt( new THREE.Vector3( 0.5, 0.25, 0 ) );
+                    //renderer.render(scene, camera);
                     $timeout(function(){$scope.isLoading = false;});
                 });
             }
@@ -375,10 +315,6 @@ app.controller("baseController", function ($scope, $timeout)
         if(textureURL) url = textureURL;
         img = new Image();
         img.onload = function() {
-
-            console.log('=== you are ===');
-            console.log(imagerect);
-
             g.drawImage(img, imagerect[0],imagerect[1],imagerect[2],imagerect[3]);
             update();
             if(!textureURL) $scope.playPause(isPaused);
@@ -388,10 +324,10 @@ app.controller("baseController", function ($scope, $timeout)
 
     $scope.changeObjectColor = function(value)
     {
-        g.fillStyle = value.color1;
+        g.fillStyle = color1 = value.color1;
         g.fillRect(0,0,bitmap.width,bitmap.height);
 
-        g.fillStyle = value.color2;
+        g.fillStyle = color2 = value.color2;
         g.fillRect(colorrects[0][0],colorrects[0][1],colorrects[0][2],colorrects[0][3]);
         g.fillRect(colorrects[1][0],colorrects[1][1],colorrects[1][2],colorrects[1][3]);
 
@@ -422,17 +358,20 @@ app.controller("baseController", function ($scope, $timeout)
 
     function update()
     {
-        var texture = new THREE.Texture(bitmap);
-        /*var material = new THREE.MeshPhongMaterial({
-          map: texture,
-          side: THREE.DoubleSide,
-      });*/
+        //var texture = new THREE.Texture(bitmap);
+        var topmaterial = new THREE.MeshPhongMaterial({
+            color: color2,
+            shininess: 20,
+            reflectivity: 0.5,
+        });
         var childFound = false;
         for ( var i = 0, l = object.children.length; i < l; i ++ ) {
-            //for(var c = 0; c < removeChildIndices.length; c++)
-            //if(i == c) mesh.children[i].visible = false;
             object.children[i].material = material;
             object.children[i].material.map.needsUpdate = true;
+            for(var c = 0; c < colorChildIndices.length; c++)
+                if(i == colorChildIndices[c])
+                    object.children[i].material = topmaterial;
+
         }
 
         renderer.render(scene, camera);
@@ -455,13 +394,15 @@ app.controller("baseController", function ($scope, $timeout)
     //var axis = new THREE.Vector3(0,0.5,0.1);
     function rotateObject(angle)
     {
+        //tilted a bit on x and y - feel free to plug your different axis here
+        //in your update/draw function
+        //object.rotateOnAxis(axis, direction * Math.PI *rotateSpeed/180);
         object.rotation.y = (direction * Math.PI *angle*rotateSpeed/180);
         $('#angleSlider').val(direction*angle);
         renderer.render(scene, camera);
         //stats.update();
     }
 
-    //Method used to capture the animated scene as gif file
     $scope.captureGif = function()
     {
         watermark.visible = true;
@@ -489,7 +430,6 @@ app.controller("baseController", function ($scope, $timeout)
         generateGIF();
     }
 
-    //Method used to capture a scene frame as Jpg file
     $scope.captureJpg = function()
     {
         watermark.visible = true;
@@ -500,13 +440,11 @@ app.controller("baseController", function ($scope, $timeout)
         //fbShare();
     }
 
-    //Method used to download the gif file
     $scope.downloadGifFile = function()
     {
         download(imageblob, 'download.gif', 'image/gif');
     }
 
-    //Method used to share the gif file on facebook
     $scope.shareGif = function()
     {
         if(imgPath) window.open('https://www.facebook.com/sharer/sharer.php?u='+imgPath, 'Share Facebook', config='height=384, width=512');
@@ -548,7 +486,6 @@ app.controller("baseController", function ($scope, $timeout)
 
     }
 
-    //Method used to control the gif animation and frames
     generateGIF = function()
     {
         imgPath = null;
@@ -578,7 +515,6 @@ app.controller("baseController", function ($scope, $timeout)
             }
         }
     }
-
 
     $scope.stopGif = function()
     {
@@ -620,7 +556,6 @@ app.controller("baseController", function ($scope, $timeout)
         });
     }
 
-    //Handles background image change
     $scope.changeBG = function(bg)
     {
         $scope.selectedBg = bg;
@@ -642,7 +577,6 @@ app.controller("baseController", function ($scope, $timeout)
 
     }
 
-    //File browse handler
     onBgBrowseSelect = function(textureURL)
     {
         var file = document.getElementById("file2").files[0], url;
@@ -661,7 +595,8 @@ app.controller("baseController", function ($scope, $timeout)
 
     onrotateZChange = function(value)
     {
-        group.rotation.x = value*Math.PI/180;
+        group.rotation.z = value*Math.PI/180;
         renderer.render(scene, camera);
     }
 })
+
