@@ -1,0 +1,89 @@
+
+<!--This is the view file for the coffee mug model -->
+
+<!DOCTYPE html>
+<html ng-app="3dpreviewapp">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/main.css"/>
+    <!-- <script src='js/lib.js'></script> -->
+    <script src='js/three.js'></script>
+    <script src='js/FresnelShader.js'></script>
+    <script src='js/stats.min.js'></script>
+    <script src='js/jquery.js'></script>
+    <script src='js/angular.js'></script>
+    <script src='js/download.js'></script>
+    <script src='js/gif.js'></script>
+    <script src="js/OBJLoader.js"></script>
+    <script src="js/baseController.js"></script>
+  </head>
+  <!-- Maps the baseController -->
+  <body ng-controller="baseController" ng-init="loadSettings()">
+    <div class="page-wrap">
+      <div class="stage">
+        <div id="stageContent">
+            <canvas id="drawcanvas" width="1024" height="1024"></canvas>
+            <canvas id="stageCanvas" width="1024" height="1024" ng-hide="showGifPopup"></canvas>
+          </div>
+          
+          <div id="inputControls" ng-hide="showGifPopup">
+            <!-- <input id="inptxt" type="text" onkeyup="onTextChange()"/> -->
+            <input type="file" id="file1" style="display:none" onchange="onFileSelect()">
+            <input type="file" id="file2" style="display:none" onchange="onBgBrowseSelect()">
+            <br>
+            <div class="pull-left">
+              <div class="block">
+                <button class="control button" ng-click="openFileOption()">Browse Image</button>
+                <button class="button" id="playPauseBtn" ng-click="playPause()">Pause</button>
+                <button class="button" id="captureGifBtn" ng-click="captureClick()">Capture</button>
+
+                <div ng-show="captureClicked" id="captureOption">
+                  <button class="button" ng-click="captureGif()">GIF</button>
+                  <button class="button" ng-click="captureJpg()">JPG</button>
+                </div>
+              </div>
+              <div class="bgitem" id="bgicon" ng-click="clickBgIcon()" ng-hide="showBgList">
+                <img class="bgimg" ng-src="{{'images/'+selectedBg+'_thumb.jpg'}}">
+              </div>
+              <ul id="bglist" ng-show="showBgList">
+                <li class="bgitem" ng-repeat="item in backgrounds" ng-click="changeBG(item)">
+                  <img class="bgimg" ng-src="{{'images/'+item+'_thumb.jpg'}}">
+                </li>
+              </ul>
+            </div>
+            
+            <!-- <button id="stopGifBtn" ng-click="stopGif()">Stop GIF</button> -->
+            <div id="angleSliderCont" onmouseover="onsliderhover(1)">
+              <input id="angleSlider" type="range" min="0" max="360" oninput="onSliderAngleChange(this.value)" onchange="onSliderAngleChange(this.value)">
+            </div>
+            <div class="pull-right">
+              <div class="block">
+                <ul class="color-variant-list">
+                  <li ng-repeat="item in objectColors" ng-click="changeObjectColor(item)">
+                    <span style="background-color:{{item.color1}}"></span>
+                    <span style="background-color:{{item.color2}}"></span>
+                  </li>
+                </ul>
+              </div>
+              <input class="pull-right" id="rotateZSlider" type="range" min="-30" max="30" oninput="onrotateZChange(this.value)" onchange="onrotateZChange(this.value)">
+            </div>
+            
+            <br>
+          </div>
+          <div id="gifContainer" ng-show="showGifPopup">
+              <div class="transBG"></div>
+              <div id="gifPopup">
+                <img id="gifImg">
+                <div id="preloader" ng-show="isPreloading"></div>
+                <button id="fbBtn" ng-click="fbGif()"></button>
+                <button id="shareBtn" ng-click="shareGif()" ng-hide="isPreloading">Share</button>
+                <button id="downloadBtn" ng-click="downloadGifFile()" ng-hide="isPreloading">Download</button>
+                <button class="button" id="closebtn" ng-click="closePopup()">X</button>
+              </div>
+          </div>
+          <div id="loader" ng-show="isLoading">{{loadingMessage}}</div>
+      </div>
+    </div>
+</body>
+</html>

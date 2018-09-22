@@ -1,0 +1,293 @@
+@font-face {
+	font-family: 'Gotham';
+	src: url('../fonts/GothamBold.eot');
+	src: url('../fonts/GothamBold.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/GothamBold.woff') format('woff'),
+		url('../fonts/GothamBold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('../fonts/GothamMedium.eot');
+	src: url('../fonts/GothamMedium.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/GothamMedium.woff') format('woff'),
+		url('../fonts/GothamMedium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('../fonts/GothamLight.eot');
+	src: url('../fonts/GothamLight.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/GothamLight.woff') format('woff'),
+		url('../fonts/GothamLight.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham';
+	src: url('../fonts/GothamBlack.eot');
+	src: url('../fonts/GothamBlack.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/GothamBlack.woff') format('woff'),
+		url('../fonts/GothamBlack.ttf') format('truetype');
+	font-weight: 900;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Gotham Book';
+	src: url('../fonts/GothamBook.eot');
+	src: url('../fonts/GothamBook.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/GothamBook.woff') format('woff'),
+		url('../fonts/GothamBook.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body{
+	margin:0px;
+	padding: 0px;
+	font-family: Tahoma;
+	/* font-weight: normal; */
+	background:#eef0f2;
+}
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+    letter-spacing: 2px;
+    font-weight: bold;
+	font-family: 'Gotham';
+}
+h1 {
+    font-size: 30px;
+	margin: 0px;
+    text-transform: uppercase;
+
+}
+h2{
+    font-size: 24px;
+    margin: 0px 0px 50px;
+    text-transform: uppercase;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+	-o-transition:.5s;
+	-ms-transition:.5s;
+	-moz-transition:.5s;
+	-webkit-transition:.5s;
+	transition:.5s;
+}
+a:hover, a:active, a:focus {
+  outline:none;
+}
+
+.page-header{
+	background:#ffffff;
+	/* padding:24px!important; */
+	margin:0px!important;
+	width: 100%;
+	padding-top: 40px;
+	padding-bottom: 43px;
+}
+.page-header .container{
+	width: 1000px;
+	margin:auto;
+}
+.page-header .container .title{
+	width: 60%;
+	display:inline-block;
+}
+.page-header .container .invent{
+	width: 35%;
+	display:inline-block;
+	text-align:center;
+	vertical-align:top;
+	/*border:solid 1px #999;
+	border-radius:5px;*/
+	padding:15px;
+}
+.page-header .container .invent span{
+	display:inline-block;
+	text-transform:uppercase;
+	font-size:26px;
+	margin:0 0 20px;
+}
+.page-header .container .invent ul{
+	font-size:20px;
+	margin:0 0 0px;
+	padding-left:10px;
+	list-style:none;
+	text-align:left;
+}
+.page-header .container .invent li a{
+	font-size:27px;
+	margin:0 0 0px;
+	padding:0;
+	color:#d03232;
+}
+.page-header .container .invent li{
+	font-size:19px;
+	margin:0 0 10px;
+	padding:0;
+}
+.page-header .container h1{
+	text-transform:uppercase;
+	font-size:36px;
+	font-weight:normal;
+	margin:0px;
+	padding:0px;
+}
+.page-header .container p{
+	font-size: 19px;
+	color:#8b899c;
+	margin:0px;
+	padding:0px;
+	line-height: 24px;
+}
+.page-wrap{
+	width:1000px;
+	margin:auto;
+	padding: 30px 0px;
+	min-height: 480px;
+}
+
+.page-wrap{
+	width:1024px;
+	margin:auto;
+	position:relative;
+}
+.page-wrap .header{
+	margin: 0px;
+	text-align:center;
+	padding: 0px;
+}
+.page-wrap .header span{
+	position: absolute;
+	right: 0;
+	top: 34px;
+	font-family: 'Gotham';
+	font-weight:500;
+}
+.page-wrap .stage{
+	width:100%;
+	position: relative;
+	height: 768px;
+}
+.page-wrap .content-wrap{
+	/* text-align:center; */
+	margin: 32px 0px 80px;
+	padding:10px 50px;
+}
+.page-wrap .content-wrap p{
+	line-height: 30px;
+	font-size: 19px;
+}
+.comment-section{
+	background:#fff;
+	display:block;
+}
+.comment-section .wrap{
+	width:1000px;
+	padding:100px 0px;
+	margin:auto;
+}
+#commentsDiv{width:976px!important; margin:auto;}
+.footer-section{
+	display:block;
+	text-align:center;
+	padding:30px 0px;
+	background: #dddfe2;
+}
+.footer-section p{
+	font-size:16px;
+	font-family: 'Gotham';
+	font-weight:500;
+}
+
+#drawcanvas{display:none;}
+#gifCanvas{height: auto!important;}
+
+@media screen and (min-width: 400px) {
+  iframe{    
+    transform: scale(0.5);
+    transform-origin: center;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  iframe{    
+    transform: scale(0.6);
+    transform-origin: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  iframe{    
+    transform: scale(0.8);
+    transform-origin: center;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  iframe{ 
+    transform: scale(0.9);
+    transform-origin: center;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+  iframe{    
+    transform: scale(1);
+    transform-origin: center;
+  }
+}
+
+.nav-tabs
+{
+  border-bottom: none;
+  margin-top: 72px;
+  list-style:none;
+}
+
+.nav-tabs li
+{
+  margin-right: 1px;
+  font-size: 18px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: -3px;
+  border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
+  border: 1px solid #dee2e6;
+  color: #d13832;
+  background: #a3a3a308;
+  float:left;
+}
+
+.nav-tabs li.active
+{
+  border: 1px solid #dee2e6;
+  color: #d13832;
+  background: #2b6fc9;
+}
+.nav-tabs a
+{
+  color: #333;
+}
+.nav-tabs li.hover
+{
+  background: #999;
+}
+.nav-tabs a.active
+{
+  color: #ffffff;
+}

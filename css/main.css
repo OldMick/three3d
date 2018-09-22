@@ -1,0 +1,314 @@
+    button{
+      font-size: 14px;
+    }
+    .control{
+      margin-left: 20px
+    }
+    #inputControls
+    {
+      margin: auto;
+      left: 0;
+      right: 0;
+      z-index:99;
+      width: 1024px;
+      height: 768px;
+      display: block;
+      position: relative;
+    }
+    #angleSlider
+    {
+      width: 524px;
+      margin-top:5px;
+    }
+    #angleSliderCont
+    {
+      padding: 10px;
+      background: rgba(200,200,200,0.4);
+      border: 0px solid;
+      border-radius: 10px;
+      position: absolute;
+      top: 710px;
+      left: 250px;
+    }
+    .button
+    {
+      border: none;
+      background: #F0F8FF;
+      padding: 8px;
+      color: #333333;
+      cursor: pointer;
+      height: 32px;
+    }
+    .button:hover
+    {
+      background: #D7EAFA;
+    }
+    *:focus {
+        outline: none;
+    }
+    #stageCanvas
+    {
+      margin: auto;
+      position: absolute;
+    }
+
+    .coloricon
+    {
+      width: 40px;
+      height: 30px;
+      cursor: pointer;
+      list-style: none;
+      float: left;
+    }
+    .color1half
+    {
+      width: 20px;
+      height: 30px;
+      float:left;
+      clear: both;
+    }
+
+    .color2half
+    {
+      width: 10px;
+      height: 30px;
+      float:left;
+    }
+
+    .iconcont
+    {
+      height: 30px;
+      margin-right: 10px;
+      margin-top: 4px;
+    }
+
+    #gifImg
+    {
+      position: absolute;
+      border: #ffffff solid 3px;
+    }
+    
+    
+    #gifContainer
+    {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 20px;
+      margin: auto;
+      width: 1024px;
+      height: 768px;
+      z-index:200;
+    }
+    #preloader
+    {
+      position: absolute;
+      height:18px;
+      background: rgba(77,131,169,0.8);
+      left:3px;
+      bottom: -3px;
+      color: #ffffff;
+      font-family: 'Tahoma';
+      text-align: right;
+      font-size: 12px;
+      font-weight: bold;
+      padding-top: 2px;
+    }
+    #gifPopup
+    {
+      position: absolute;
+      left:256px;
+      top:192px;
+      width: 512px;
+      height:384px;
+    }
+    #downloadBtn
+    {
+      position: absolute;
+      bottom: 5px;
+      left: 70px;
+    }
+    .transBG
+    {
+      background: rgba(0,0,0,0.8);
+      width: 1024px;
+      height: 768px;
+      position: absolute;
+    }
+    #captureOption
+    {
+      position: absolute;
+      left: 222px;
+      margin-top: 1px;
+    }
+    #captureGifBtn
+    {
+      width:87px;
+    }
+    #playPauseBtn
+    {
+      width:87px;
+    }
+    #closebtn
+    {
+      width: 24px;
+      height: 24px;
+      border-radius: 12px;
+      right: -12px;
+      position: absolute;
+      top: -12px;
+      text-align: left;
+      font-size: 12px;
+      padding-top: 6px;
+    }
+
+    #loader
+    {
+      position: absolute;
+      background: rgba(100,100,100,0.3);
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.6);
+      width: 200px;
+      height: 60px;
+      line-height: 60px;
+      margin:auto;
+      left:0;
+      right:0;
+      top:0;
+      bottom:0;
+      color: white;
+      font-weight: bold;
+      text-align:center;
+      font-family: 'Tahoma';
+      z-index:300;
+    }
+    #bglist
+    {
+      background: rgba(255,255,255,1);
+      list-style: none;
+      padding: 0;
+      width: 224px;
+      height: 176px;
+      overflow-y: auto;
+      margin-left: 20px;
+      margin-top: 12px;
+      float: left;
+      border: 1px solid #eee;
+    }
+    .bgitem
+    {
+      background: rgba(255,255,255,1);
+      width: 64px;
+      height: 48px;
+      float: left;
+      padding: 5px;
+      cursor: pointer;
+    }
+    .bgimg
+    {
+      width: 100%;
+      height: 100%;
+    }
+    #bgicon
+    {
+      margin-left: 20px;
+      margin-top: 12px;
+      border: 1px solid #eee;
+    }
+    #rotateZSlider
+    {
+      -webkit-appearance: slider-vertical;
+      width: 20px;
+      height: 120px;
+      margin-right: 20px;
+    }
+    #shareBtn
+    {
+      position: absolute;
+      bottom: 5px;
+      left: 10px;
+    }
+    #stats
+    {
+      width: 80px;
+      opacity: 0.9;
+      cursor: pointer;
+      position: absolute;
+      z-index: 999;
+      top: 0px;
+      left: 0px;
+    }
+    #modeliframe
+    {
+      background: #fff;
+      padding: 0px;
+      /*max-width: 100%;*/
+      top: 0;
+      left:0;
+      width: 1024px;
+      height: 830px;
+      /*-webkit-box-shadow: 2px 3px 90px -22px rgba(0,0,0,0.42);
+      -moz-box-shadow: 2px 3px 90px -22px rgba(0,0,0,0.42);
+      box-shadow: 2px 3px 90px -22px rgba(0,0,0,0.42);*/
+    }
+    #fbpage
+    {
+      margin: auto;
+      left: 0;
+      right: 0;
+      margin-bottom: 20px;
+      margin-top: 20px;
+      width: 500px;
+      height: 400px;
+      background: #fff;
+    }
+    #fblike
+    {
+      margin-top: 30px;
+    }
+
+    .modellist
+    {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      width:1024px;
+      height:120px;
+    }
+
+    .modelitem
+    {
+      background: rgba(255,255,255,1);
+      width: 128px;
+      height: 96px;
+      float: left;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .pull-left{float:left;}
+    .pull-right{float:right;}
+    .block{display: block;}
+    .color-variant-list{
+        background: #fff;
+        padding: 11px;
+        margin-right: 15px;
+        border: 1px solid #eee;
+    }
+    .color-variant-list li{
+      display: inline-block;
+      list-style: none;
+      margin-right: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .color-variant-list li span{
+        width: 15px;
+        height: 30px;
+        display: table-cell
+    }
+
+    .mid-ad{
+        width: 470px;
+        height: 62px;
+    }
