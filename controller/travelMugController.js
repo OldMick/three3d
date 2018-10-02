@@ -1,5 +1,5 @@
 var app = angular.module("3dpreviewapp", []);
-app.controller("coneCupController", function ($scope, $timeout)
+app.controller("travelMugController", function ($scope, $timeout)
 {
     THREE.ImageUtils.crossOrigin = "";
     var scene, camera, renderer, object, group, material, img,
@@ -27,7 +27,7 @@ app.controller("coneCupController", function ($scope, $timeout)
     {
         $scope.isLoading = true;
         var client = new XMLHttpRequest();
-        client.open('GET', 'settingsConeCup.js', true);
+        client.open('GET', 'settingsTravelMug.js', true);
         client.onreadystatechange = function() {
             if (client.readyState == 4 && client.status == 200)
             {
@@ -100,8 +100,8 @@ app.controller("coneCupController", function ($scope, $timeout)
     function addLights()
     {
         // Create some lights and add them to the scene.
-        var spotLight = new THREE.SpotLight( 0xffffff, 0.01, 0, Math.PI / 2 );
-        spotLight.position.set(-300, -200, -80);
+        var spotLight = new THREE.SpotLight( 0xffffff, 0.3, 0, Math.PI / 2 );
+        spotLight.position.set(-500, -200, -580);
         spotLight.target.position.set( 0, 0, 0 );
         //spotLight.shadowCameraVisible = true;
         spotLight.castShadow = false;
@@ -123,10 +123,10 @@ app.controller("coneCupController", function ($scope, $timeout)
         pointLight2.intensity = 1;
         //pointLight2.castShadow = true;
         //pointLight2.shadowCameraVisible = true;
-        //scene.add( pointLight2 );
+        scene.add( pointLight2 );
 
         var directionalLight = new THREE.DirectionalLight( 0xffffff );
-        directionalLight.position.set( -300, 200, 800 ).normalize();
+        directionalLight.position.set( -600, 200, 800 ).normalize();
         directionalLight.intensity = 0.5;
         //directionalLight.castShadow = true;
         scene.add( directionalLight );
@@ -134,6 +134,18 @@ app.controller("coneCupController", function ($scope, $timeout)
         var directionalLight2 = new THREE.DirectionalLight( 0xffffff );
         directionalLight2.position.set( -300, 10, -300 ).normalize();
         directionalLight2.intensity = 0.5;
+        directionalLight2.castShadow = true;
+        //directionalLight2.shadow.camera.visible = true;
+        directionalLight2.shadow.camera.left = -1; // or whatever value works for the scale of your scene
+        directionalLight2.shadow.camera.right = 1;
+        directionalLight2.shadow.camera.top = 1;
+        directionalLight2.shadow.camera.bottom = -1;
+        //directionalLight2.shadowDarkness = 0.2;
+
+        directionalLight2.shadow.bias = 0.0001;
+        directionalLight2.shadow.radius = 1;
+        directionalLight2.shadow.mapSize.width = 2048;
+        directionalLight2.shadow.mapSize.height = 2048;
         scene.add( directionalLight2 );
 
         var ambientLight = new THREE.AmbientLight( 0xffffff );
@@ -187,6 +199,7 @@ app.controller("coneCupController", function ($scope, $timeout)
             if(httpReq.readyState == 4 && httpReq.status == 200)
             {
                 var modeldata = JSON.parse(httpReq.responseText);
+
                 modelScale = parseFloat(modeldata.scale);
                 reflectivity = parseFloat(modeldata.reflectivity);
                 shininess = parseFloat(modeldata.shininess);
@@ -214,10 +227,10 @@ app.controller("coneCupController", function ($scope, $timeout)
                 // canvas contents will be used for a texture
                 var texture = new THREE.Texture(bitmap);
                 texture.needsUpdate = true;
-                texture.wrapS = THREE.RepeatWrapping;
-                texture.wrapT = THREE.RepeatWrapping;
-                texture.offset.set(0,0);
-                texture.repeat.set(1,1);
+                //texture.wrapS = THREE.RepeatWrapping;
+                //texture.wrapT = THREE.RepeatWrapping;
+                //texture.offset.set(0,0);
+                //texture.repeat.set(0.1,0.1);
 
                 var path = "images/textures/";
                 var format = '.png';
@@ -239,24 +252,25 @@ app.controller("coneCupController", function ($scope, $timeout)
                     envMap: textureCube,
                     reflectivity: reflectivity,
                     //opacity: 0.9,
-                    transparent: true,
-                    bumpMap: texture,
-                    bumpScale : 0.0002,
+                    //transparent: true,
+                    //bumpMap: texture,
+                    //bumpScale : 0.0002,
                 });
 
                 floorTexture = new THREE.TextureLoader().load( 'images/shadow.png' );
                 floorTexture.needsUpdate = true;
-                var floorGeometry = new THREE.CubeGeometry(10.3,0.0001,10.3);
+                var floorGeometry = new THREE.CubeGeometry(0.029,0.0001,0.029);
                 var floorMaterial = new THREE.MeshBasicMaterial({
                     color: 0xffffff,
                     map: floorTexture,
                     //side: THREE.DoubleSide,
-                    transparent: true
+                    transparent: true,
+                    opacity: 0.7
                 });
 
                 var floor = new THREE.Mesh(floorGeometry, floorMaterial);
                 floor.position.x=0.1;
-                floor.position.y=0.078;
+                floor.position.y=0.084;
                 floor.scale.set( modelScale/0.07,modelScale/0.07,modelScale/0.07 );
                 group.add(floor);
                 //group.position.z = -0.2;
@@ -269,10 +283,19 @@ app.controller("coneCupController", function ($scope, $timeout)
 
                     group.add(mesh);
                     object = mesh;
+
                     //group.rotation.z = Math.PI * 12/180;
 
-                    //if(textureImg) onFileSelect(textureImg);
-                    //mesh = new THREE.Mesh(geometry, material);
+                    /*//if(textureImg) onFileSelect(textureImg);
+                                //mesh = new THREE.Mesh(geometry, material);
+                                var childFound = false;
+                                for ( var i = 0, l = mesh.children.length; i < l; i ++ ) {
+                                    for(var c = 0; c < removeChildIndices.length; c++)
+                                        if(i == c) mesh.children[i].visible = false;
+                                    mesh.children[i].material = material;
+                                    mesh.children[i].material.map.needsUpdate = true;
+
+                                }*/
                     update();
                     animate();
                     /*camera.position.x = Math.cos( 180*Math.PI/180 ) * 1;
@@ -358,24 +381,21 @@ app.controller("coneCupController", function ($scope, $timeout)
 
     function update()
     {
-        //var texture = new THREE.Texture(bitmap);
-        var topmaterial = new THREE.MeshPhongMaterial({
-            color: color2,
-            shininess: 20,
-            reflectivity: 0.5,
-        });
-        var childFound = false;
         for ( var i = 0, l = object.children.length; i < l; i ++ ) {
             object.children[i].material = material;
             object.children[i].material.map.needsUpdate = true;
             for(var c = 0; c < colorChildIndices.length; c++)
-                if(i == colorChildIndices[c])
-                    object.children[i].material = topmaterial;
-
+                if(i == parseInt(colorChildIndices[c].index))
+                    object.children[i].material = new THREE.MeshPhongMaterial({
+                        color: colorChildIndices[c].color,
+                        shininess: 0,
+                        reflectivity: 0,
+                    });
         }
 
         renderer.render(scene, camera);
     }
+
 
     function animate() {
         if(isPaused && timeouttId) clearTimeout(timeouttId);
@@ -397,7 +417,8 @@ app.controller("coneCupController", function ($scope, $timeout)
         //tilted a bit on x and y - feel free to plug your different axis here
         //in your update/draw function
         //object.rotateOnAxis(axis, direction * Math.PI *rotateSpeed/180);
-        object.rotation.y = (direction * Math.PI *angle*rotateSpeed/180);
+        object.rotation.x = -Math.PI/2;
+        object.rotation.z = (direction * Math.PI *angle*rotateSpeed/180);
         $('#angleSlider').val(direction*angle);
         renderer.render(scene, camera);
         //stats.update();
@@ -599,4 +620,3 @@ app.controller("coneCupController", function ($scope, $timeout)
         renderer.render(scene, camera);
     }
 })
-
